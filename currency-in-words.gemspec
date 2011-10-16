@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "currency-in-words.gemspec",
     "lib/currency-in-words.rb"
   ]
   s.homepage = "http://github.com/bcarrere/currency-in-words"
