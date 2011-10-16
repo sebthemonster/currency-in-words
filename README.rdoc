@@ -1,6 +1,140 @@
 = currency-in-words
 
-Description goes here.
+Provides a view helper for Rails that displays a currency amount in words (eg. <tt>number_to_currency_in_words(100)</tt> \=> 'one hundred dollars').
+
+This helper comes with two supported locales (English and French) but it is possible and easy to implement your own (see "Implementing a new locale").
+
+== Installation
+
+Add the gem to your Gemfile.
+
+  gem 'currency-in-words'
+
+== Usage
+
+==== General Options
+* <tt>:locale</tt> - Sets the locale to be used for formatting (defaults to current locale).
+* <tt>:currency</tt> - Sets the denomination of the currency (defaults to +:default+ currency for the locale or "dollar" if not set).
+* <tt>:connector</tt> - Sets the connector between integer part and decimal part of the currency (defaults to ", ").
+* <tt>:format</tt> - Sets the format for non-negative numbers (defaults to "%n").
+Field is <tt>%n</tt> for the currency amount in words.
+* <tt>:negative_format</tt> - Sets the format for negative numbers (defaults to prepending "minus" to the number in words 'minus %n').
+Field is <tt>%n</tt> for the currency amount in words (same as format).
+
+===== Examples
+[<tt>number_to_currency_in_words(123456.50)</tt>] 
+  \=> one hundred and twenty-three thousand four hundred and fifty-six dollars, fifty cents
+[<tt>number_to_currency_in_words(123456.50, connector: ' and ')</tt>]
+  \=> one hundred and twenty-three thousand four hundred and fifty-six dollars and fifty cents
+[<tt>number_to_currency_in_words(123456.50, locale: :fr, connector: ' et ')</tt>] 
+  \=> cent vingt-trois mille quatre cent cinquante-six dollars et cinquante cents
+[<tt>number_to_currency_in_words(80300.80, locale: :fr, currency: :euro, connector: ' et ')</tt>]
+  \=> quatre-vingt mille trois cents euros et quatre-vingts centimes
+
+
+==== Specifics options for locale :en
+* <tt>:delimiter</tt> - Sets the thousands delimiter (defaults to +false+)
+* <tt>:skip_and</tt> - Skips the 'and' part in number - US (defaults to +false+)
+
+===== Examples
+[<tt>number_to_currency(201201201.201, delimiter: true)</tt>] 
+  \=> two hundred and one million, two hundred and one thousand, two hundred and one dollars, twenty cents
+[<tt>number_to_currency(201201201.201, delimiter: true, skip_and: true)</tt>]
+  \=> two hundred one million, two hundred one thousand, two hundred one dollars, twenty cents
+
+== Options settings
+
+Modify +config/locales/xx.yml+ to set default options and add currencies for locales.
+
+=== Example for locale :en
+  
+  en:
+    number:
+      currency_in_words:
+        connector: ' and '
+        negative_format: '(%n)'
+        skip_and: true
+        delimiter: true
+        currencies:
+          euro: 
+            unit:
+              one: 'euro'
+              many: 'euros'
+            decimal: 
+              one: 'cent'
+              many: 'cents'
+          pound:
+            unit:
+              one: 'pound'
+              many: 'pounds'
+            decimal: 
+              one: 'penny'
+              many: 'pence'
+
+
+=== Example for locale :fr
+
+  fr:
+    number:
+      currency_in_words:
+        format: '%n'
+        negative_format: 'moins %n'
+        connector: ' et '
+        currencies:
+          default:             # euro will be the default currency for locale :fr
+            unit:
+              one: 'euro'
+              many: 'euros'    # can be omit
+              more: "d'euros"  # can be omit (specific to :fr, eg. 'un million d'euros')
+            decimal: 
+              one: 'centime'
+              many: 'centimes' # can be omit
+          dollar:
+            unit:
+              one: 'dollar'
+              many: 'dollars'
+            decimal: 
+              one: 'cent'
+              many: 'cents'
+          livre:
+            unit:
+              feminine: true   # specific to :fr, eg. 'un euro' but 'une livre'
+              one: 'livre'
+              many: 'livres'
+            decimal: 
+              one: 'penny'
+              many: 'pence'
+
+== Implementing a new locale
+
++CurrencyInWords+ expects a _texterizer_ by locale. A _texterizer_ is a simple class that returns the amount in words for the currency and the given locale (eg. a class +EnTexterizer+ for English locale, a class +FrTexterizer+ for French locale). So, for example, if you want to support Italian, you have to implement an +ItTexterizer+ class for the module +CurrencyInWords+.
+
+A _texterizer_ :
+* must provide a <b>+texterize+</b> method
+* must return a <b>+string+</b>
+
+That's all.
+
+Example :
+
+  class CurrencyInWords::ItTexterizer
+    def texterize(context)
+      ../..
+    end
+  end
+
+Parameter +context+ provides :
+* an array that includes the integer part and the decimal part of the number (+context.number_parts+)
+* a hash that includes the options passed to +number_to_currency_in_words+ (+context.options+).  
+
+See the source code of +EnTexterizer+ for an example (+FrTexterizer+ is perhaps too specific but +EnTexterizer+ can be a starting point to implement your own _texterizer_).
+
+If you need more options for your language, simply create yours and use them (options +:delimiter+ and +:skip_and+ are for example specifics to +EnTexterizer+ while +:feminine+ is specific to +FrTexterizer+).
+
+== ToDo
+
+* clean up and push tests
+* add comments in source code
 
 == Contributing to currency-in-words
  
