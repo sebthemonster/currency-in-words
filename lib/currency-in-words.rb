@@ -175,7 +175,8 @@ module CurrencyInWords
            seventeen eighteen nineteen)
     C = [nil,nil,'twenty','thirty','forty','fifty','sixty','seventy',
          'eighty','ninety']
-    D = [nil,'thousand','million','billion','trillion','quadrillion']
+    D = [nil,'thousand','million','billion','trillion','quadrillion',
+         'quintillion','sextillion','septillion','octillion']
 
     def texterize_by_group number, group=0
       return [under_100(number)] if number.zero?
@@ -228,10 +229,10 @@ module CurrencyInWords
       dec_unit_one       = context.options[:currency][:decimal][:one]
       dec_unit_many      = context.options[:currency][:decimal][:many]
 
+      unless int_unit_many
+        int_unit_many = int_unit_one+'s'
+      end
       unless int_unit_more
-        unless int_unit_many
-          int_unit_many = int_unit_one+'s'
-        end
         int_unit_more = if int_unit_many.start_with?("a","e","i","o","u")
                           "d'"+int_unit_many
                         else
@@ -269,7 +270,8 @@ module CurrencyInWords
     B = %w(dix onze douze treize quatorze quinze seize dix-sept dix-huit dix-neuf)
     C = [nil,nil,'vingt','trente','quarante','cinquante', 
          'soixante','soixante','quatre-vingt','quatre-vingt']
-    D = [nil,'mille','million','milliard','billion']
+    D = [nil,'mille','million','milliard','billion','billiard','trillion','trilliard',
+         'quadrillion','quadrilliard']
 
     def texterize_by_group number, group, feminine
       return [under_100(number, 0, feminine)] if number.zero?
