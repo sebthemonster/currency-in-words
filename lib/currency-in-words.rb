@@ -33,9 +33,9 @@ module CurrencyInWords
     # * <tt>:skip_and</tt> - Skips the 'and' part in number - US (defaults to false).
     #
     # ==== Examples
-    # [<tt>number_to_currency(201201201.201, :delimiter => true)</tt>] 
+    # [<tt>number_to_currency_in_words(201201201.201, :delimiter => true)</tt>] 
     #   \=> two hundred and one million, two hundred and one thousand, two hundred and one dollars, twenty cents
-    # [<tt>number_to_currency(201201201.201, :delimiter => true, :skip_and => true)</tt>]
+    # [<tt>number_to_currency_in_words(201201201.201, :delimiter => true, :skip_and => true)</tt>]
     #   \=> two hundred one million, two hundred one thousand, two hundred one dollars, twenty cents
     def number_to_currency_in_words number, options = {}
 

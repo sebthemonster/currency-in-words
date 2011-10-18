@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
   s.name = "currency-in-words"
-  s.version = "0.1.0"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bruno Carrere"]
-  s.date = "2011-10-16"
-  s.description = "Rails 3 helper number_to_currency_in_words that displays a currency amount in words  (eg. 'one hundred dollars')"
+  s.date = "2011-10-18"
+  s.description = "Rails 3 helper number_to_currency_in_words that displays a currency amount in words (eg. 'one hundred dollars')"
   s.email = "bruno@carrere.cc"
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -15,14 +15,13 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.rdoc",
     "VERSION",
-    "currency-in-words.gemspec",
     "lib/currency-in-words.rb"
   ]
   s.homepage = "http://github.com/bcarrere/currency-in-words"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
-  s.summary = "View helper for Rails that displays a currency amount in words (eg. 'one hundred dollars')"
+  s.summary = "View helper for Rails 3 that displays a currency amount in words (eg. 'one hundred dollars')"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
